@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css'; // Ensure you create an App.css for styling
 
 function App() {
+  // Set the document title to the roll number
+  document.title = "YourRollNumber";  // Replace with actual roll number
+
   const [input, setInput] = useState('');
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [filters, setFilters] = useState([]);
 
-  const apiUrl = 'https://bajaj-finserv-7t1l.vercel.app/bfhl'; // Add the deployed backend API URL
+  const apiUrl = 'https://bajaj-test1.vercel.app/bfhl'; // Replace with your backend API URL
 
   const handleSubmit = async () => {
     try {
@@ -18,6 +20,7 @@ function App() {
       setError('');
     } catch (e) {
       setError('Invalid JSON format or API error');
+      setResponse(null);
     }
   };
 
@@ -37,38 +40,56 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>BFHL Challenge</h1>
-      <div className="input-section">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder='{"data":["M","1","334","4","B"]}'
-          className="input-area"
-        />
-        <button className="submit-btn" onClick={handleSubmit}>
-          Submit
-        </button>
-      </div>
-      {error && <p className="error">{error}</p>}
-
-      {response && (
-        <div className="filter-section">
-          <label>Multi Filter</label>
-          <select multiple className="filter-select" onChange={handleFilterChange}>
-            <option value="Alphabets">Alphabets</option>
-            <option value="Numbers">Numbers</option>
-            <option value="Highest lowercase alphabet">Highest lowercase alphabet</option>
-          </select>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+      <h1 className="text-xl font-bold mb-4">JSON Validator and Response Renderer</h1>
+      <div className="w-full max-w-lg bg-white shadow-md p-6 rounded-lg">
+        {/* Input Section */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">API Input</label>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder='{"data":["M","1","334","4","B"]}'
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={3}
+          />
         </div>
-      )}
+        <div className="flex justify-center mb-6">
+          <button
+            className="bg-blue-600 text-white w-full py-2 rounded-md hover:bg-blue-700"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
 
-      <div className="response-section">
+        {/* Error Handling */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+
+        {/* Filter Section */}
         {response && (
-          <>
-            <h3>Filtered Response</h3>
-            <pre>{JSON.stringify(filteredResponse(), null, 2)}</pre>
-          </>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">Multi Filter</label>
+            <select
+              multiple
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleFilterChange}
+            >
+              <option value="Alphabets">Alphabets</option>
+              <option value="Numbers">Numbers</option>
+              <option value="Highest lowercase alphabet">Highest lowercase alphabet</option>
+            </select>
+          </div>
+        )}
+
+        {/* Filtered Response Section */}
+        {response && (
+          <div className="border-t pt-4">
+            <h3 className="text-gray-700 font-semibold mb-2">Filtered Response</h3>
+            <pre className="bg-gray-100 p-4 rounded-md">
+              {JSON.stringify(filteredResponse(), null, 2)}
+            </pre>
+          </div>
         )}
       </div>
     </div>
