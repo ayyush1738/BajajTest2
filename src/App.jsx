@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState('');
   const [filters, setFilters] = useState([]);
 
-  const apiUrl = 'https://bajaj-finserv-7t1l.vercel.app/bfhl'; // Add the deployed backend API URL
+  const apiUrl = 'https://bajaj-test1.vercel.app/bfhl'; // Add the deployed backend API URL
 
   const handleSubmit = async () => {
     try {
