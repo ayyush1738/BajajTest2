@@ -2,27 +2,30 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
-const BFHLForm = () => {
+const App = () => {
     const [jsonInput, setJsonInput] = useState('');
     const [response, setResponse] = useState(null);
     const [error, setError] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
 
+    // Set page title with roll number
 
+    // Options for the filter dropdown
     const options = [
         { value: 'alphabets', label: 'Alphabets' },
         { value: 'numbers', label: 'Numbers' },
         { value: 'highest_lowercase_alphabet', label: 'Highest lowercase alphabet' }
     ];
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setResponse(null);
 
         try {
-            const parsedJson = JSON.parse(jsonInput);
-             const { data } = await axios.post('https://bajaj-test1.vercel.app/bfhl', parsedJson);
+            const parsedJson = JSON.parse(jsonInput); // Parse JSON input
+            const { data } = await axios.post('https://bajaj-test1.vercel.app/bfhl', parsedJson); // Replace with your API URL
             setResponse(data);
         } catch (err) {
             if (err instanceof SyntaxError) {
@@ -38,6 +41,7 @@ const BFHLForm = () => {
         }
     };
 
+    // Filter the response based on selected options
     const filterResponse = (response) => {
         if (!response) return null;
         if (selectedOptions.length === 0) return response;
@@ -53,6 +57,7 @@ const BFHLForm = () => {
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                {/* Form for JSON input */}
                 <form onSubmit={handleSubmit} className="mb-4">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="jsonInput">
@@ -77,6 +82,7 @@ const BFHLForm = () => {
                     </div>
                 </form>
 
+                {/* Response and Filter Dropdown */}
                 {response && (
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -93,6 +99,7 @@ const BFHLForm = () => {
                     </div>
                 )}
 
+                {/* Display Full Response and Filtered Response */}
                 {response && (
                     <div className="bg-gray-100 p-4 rounded">
                         <h3 className="text-lg font-bold mb-2">Full Response:</h3>
@@ -100,6 +107,7 @@ const BFHLForm = () => {
                             {JSON.stringify(response, null, 2)}
                         </pre>
                         
+                        {/* Display Filtered Response */}
                         {selectedOptions.length > 0 && (
                             <>
                                 <h3 className="text-lg font-bold mt-4 mb-2">Filtered Response:</h3>
@@ -111,6 +119,7 @@ const BFHLForm = () => {
                     </div>
                 )}
 
+                {/* Error Message */}
                 {error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                         <strong className="font-bold">Error:</strong>
@@ -122,4 +131,4 @@ const BFHLForm = () => {
     );
 };
 
-export default BFHLForm;
+export default App;
