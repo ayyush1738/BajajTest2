@@ -8,10 +8,6 @@ const BFHLForm = () => {
     const [error, setError] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-    useEffect(() => {
-        document.title = "AP21110010239";
-    }, []);
-
     const options = [
         { value: 'alphabets', label: 'Alphabets' },
         { value: 'numbers', label: 'Numbers' },
@@ -54,7 +50,7 @@ const BFHLForm = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen bg-gray-900 p-8">
             <div className="max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <form onSubmit={handleSubmit} className="mb-4">
                     <div className="mb-4">
