@@ -8,9 +8,6 @@ const BFHLForm = () => {
     const [error, setError] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-    useEffect(() => {
-        document.title = "AP21110010239";
-    }, []);
 
     const options = [
         { value: 'alphabets', label: 'Alphabets' },
@@ -25,7 +22,7 @@ const BFHLForm = () => {
 
         try {
             const parsedJson = JSON.parse(jsonInput);
-             const { data } = await axios.post('https://bajaj-finserv-backend-gules.vercel.app/bfhl', parsedJson);
+             const { data } = await axios.post('https://bajaj-test1.vercel.app/bfhl', parsedJson);
             setResponse(data);
         } catch (err) {
             if (err instanceof SyntaxError) {
