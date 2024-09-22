@@ -1,12 +1,11 @@
 import React from 'react';
+import bj from './bajaj.png'
 
 const NavBar = () => {
     return (
-        <nav className="bg-gray-800 p-4">
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-                <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
-                    <span className="text-white font-bold text-lg">Bajaj Finserv</span>
-                </div>
+        <nav className="bg-gray-900">
+            <div className="sm:flex-row  items-center sm:space-y-0 ">
+                <img src={bj} alt="Logo" className="w-44 h-44 ml-4" />
             </div>
         </nav>
     );

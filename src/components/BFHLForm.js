@@ -50,9 +50,19 @@ const BFHLForm = () => {
         return filtered;
     };
 
+    function copyToClipboard() {
+        const textToCopy = document.getElementById("text-to-copy").innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Text copied to clipboard!");
+        }).catch(err => {
+            console.error("Failed to copy: ", err);
+        });
+    }
+    
+
     return (
         <div className="min-h-screen bg-gray-900 p-8">
-            <div className="max-w-2xl mx-auto bg-white shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4">
+            <div className="max-w-2xl mx-auto shadow-blue-500 bg-white shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4">
                 <form onSubmit={handleSubmit} className="mb-4">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="jsonInput">
@@ -67,10 +77,10 @@ const BFHLForm = () => {
                             placeholder='{"data": ["A","1","B","2","C","3"]}'
                         ></textarea>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-center align-middle">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-3/4 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
                             Submit
                         </button>
