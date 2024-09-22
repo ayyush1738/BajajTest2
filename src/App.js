@@ -3,13 +3,12 @@ import BFHLForm from './components/BFHLForm';
 import NavBar from './components/navbar';
 
 function App() {
-
-  return (
-       <div className="App">
-            <NavBar/>
-            <BFHLForm />
-       </div>
-  );
+     return (
+          <div className="App">
+               <NavBar/>
+               <BFHLForm />
+          </div>
+     );
 }
 
 export default App;
