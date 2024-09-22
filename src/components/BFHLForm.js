@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
@@ -51,8 +51,8 @@ const BFHLForm = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <div className="max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="min-h-screen bg-gray-900 p-8">
+            <div className="max-w-2xl mx-auto bg-white shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4">
                 <form onSubmit={handleSubmit} className="mb-4">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="jsonInput">
