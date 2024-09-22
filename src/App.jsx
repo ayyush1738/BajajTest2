@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 import axios from 'axios';
-import './App.css'; // Ensure you create an App.css for styling
+import './App.css'; // Add any custom styling in this file
 
 function App() {
   const [input, setInput] = useState('');
@@ -8,11 +9,12 @@ function App() {
   const [error, setError] = useState('');
   const [filters, setFilters] = useState([]);
 
-  const apiUrl = 'https://bajaj-test1.vercel.app/bfhl'; // Add the deployed backend API URL
+  const apiUrl = 'https://bajaj-test1.vercel.app/bfhl';
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const jsonData = JSON.parse(input); // Ensure input is valid JSON
+      const jsonData = JSON.parse(input);
       const res = await axios.post(apiUrl, jsonData);
       setResponse(res.data);
       setError('');
@@ -21,54 +23,85 @@ function App() {
     }
   };
 
-  const handleFilterChange = (e) => {
-    const value = Array.from(e.target.selectedOptions, (option) => option.value);
-    setFilters(value);
+  const filterOptions = [
+    { value: 'Alphabets', label: 'Alphabets' },
+    { value: 'Numbers', label: 'Numbers' },
+    { value: 'Highest lowercase alphabet', label: 'Highest lowercase alphabet' },
+  ];
+
+  const handleFilterChange = (selected) => {
+    setFilters(selected);
   };
 
   const filteredResponse = () => {
     if (!response) return null;
     const result = {};
-    if (filters.includes('Numbers')) result.numbers = response.numbers;
-    if (filters.includes('Alphabets')) result.alphabets = response.alphabets;
-    if (filters.includes('Highest lowercase alphabet'))
-      result.highest_lowercase_alphabet = response.highest_lowercase_alphabet;
+    filters.forEach((filter) => {
+      if (filter.value === 'Numbers') result.numbers = response.numbers;
+      if (filter.value === 'Alphabets') result.alphabets = response.alphabets;
+      if (filter.value === 'Highest lowercase alphabet')
+        result.highest_lowercase_alphabet = response.highest_lowercase_alphabet;
+    });
     return result;
   };
 
   return (
-    <div className="App">
-      <h1>BFHL Challenge</h1>
-      <div className="input-section">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder='{"data":["M","1","334","4","B"]}'
-          className="input-area"
-        />
-        <button className="submit-btn" onClick={handleSubmit}>
-          Submit
-        </button>
-      </div>
-      {error && <p className="error">{error}</p>}
+    <div className="min-h-screen bg-gray-100 p-8">
+      <div className="max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">BFHL Challenge</h1>
+        <form onSubmit={handleSubmit} className="mb-4">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              JSON Input
+            </label>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder='{"data":["M","1","334","4","B"]}'
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              rows="4"
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
 
-      {response && (
-        <div className="filter-section">
-          <label>Multi Filter</label>
-          <select multiple className="filter-select" onChange={handleFilterChange}>
-            <option value="Alphabets">Alphabets</option>
-            <option value="Numbers">Numbers</option>
-            <option value="Highest lowercase alphabet">Highest lowercase alphabet</option>
-          </select>
-        </div>
-      )}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
+            <strong className="font-bold">Error:</strong>
+            <span className="block sm:inline"> {error}</span>
+          </div>
+        )}
 
-      <div className="response-section">
         {response && (
-          <>
-            <h3>Filtered Response</h3>
-            <pre>{JSON.stringify(filteredResponse(), null, 2)}</pre>
-          </>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Filter Response (Optional)
+            </label>
+            <Select
+              isMulti
+              name="filters"
+              options={filterOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={handleFilterChange}
+            />
+          </div>
+        )}
+
+        {response && (
+          <div className="bg-gray-100 p-4 mt-4 rounded">
+            <h3 className="text-lg font-bold mb-2">Filtered Response</h3>
+            <pre className="text-sm overflow-auto max-h-96">
+              {JSON.stringify(filteredResponse(), null, 2)}
+            </pre>
+          </div>
         )}
       </div>
     </div>
